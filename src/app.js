@@ -29,7 +29,14 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(helmet());
+// app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+
+
 app.use(compression());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
