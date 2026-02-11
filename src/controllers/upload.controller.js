@@ -7,7 +7,9 @@ export const uploadImage = async (req, res) => {
       });
     }
 
-    const imageUrl = `/uploads/${req.file.filename}`;
+    // const imageUrl = `/uploads/${req.file.filename}`;
+    const imageUrl = req.file.path.replace(/\\/g, "/");
+
 
     res.status(200).json({
       success: true,

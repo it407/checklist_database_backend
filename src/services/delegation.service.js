@@ -85,57 +85,6 @@ export const getAllDelegations = async () => {
 
 
 
-// export const updateDelegation = async (id, data) => {
-//   // 🔹 Get current delegation row
-//   const { rows: existingRows } = await pool.query(
-//     `SELECT total_extend FROM delegation WHERE id = $1`,
-//     [id]
-//   );
-
-//   if (existingRows.length === 0) {
-//     throw new Error("Delegation not found");
-//   }
-
-//   let total_extend = existingRows[0].total_extend || 0;
-//   let color_code = "green";
-
-//   // 🔥 Business rule
-//   if (data.status === "Extend date") {
-//     total_extend = total_extend + 1;
-
-//     if (total_extend === 1) color_code = "green";
-//     else if (total_extend === 2) color_code = "yellow";
-//     else color_code = "red";
-//   }
-
-//   // 🔹 Merge auto-calculated fields
-//   const finalData = {
-//     ...data,
-//     total_extend,
-//     color_code
-//   };
-
-//   const keys = Object.keys(finalData);
-
-//   const setClause = keys
-//     .map((key, i) => `${key} = $${i + 1}`)
-//     .join(", ");
-
-//   const values = Object.values(finalData);
-
-//   const { rows } = await pool.query(
-//     `
-//     UPDATE delegation
-//     SET ${setClause}
-//     WHERE id = $${keys.length + 1}
-//     RETURNING *
-//     `,
-//     [...values, id]
-//   );
-
-//   return rows[0];
-// };
-
 export const updateDelegation = async (id, data) => {
 
   // 🔹 Get current delegation row
