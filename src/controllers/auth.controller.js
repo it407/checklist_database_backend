@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { loginService } from "../services/auth.service.js";
 
 export const login = async (req, res) => {
@@ -20,9 +21,20 @@ export const login = async (req, res) => {
       });
     }
 
+    const token = jwt.sign(
+      {
+        id: user.id,
+        role: user.role,
+        username: user.doer_name,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN }, // example: 24h
+    );
+
     res.json({
       success: true,
       message: "Login successful",
+      token,
       data: {
         id: user.id,
         username: user.doer_name,
@@ -36,6 +48,28 @@ export const login = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
+    });
+  }
+};
+
+
+
+
+export const getProfile = async (req, res) => {
+  try {
+    const user = await pool.query(
+      "SELECT id, doer_name, email_id, role, department, page FROM users WHERE id = $1",
+      [req.user.id]
+    );
+    
+    res.json({
+      success: true,
+      user: user.rows[0]
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      message: "Server error" 
     });
   }
 };
