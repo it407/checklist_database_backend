@@ -36,6 +36,10 @@ app.use(
   })
 );
 
+app.use(cors({
+  origin: "*", // temporary for testing
+}));
+
 
 app.use(compression());
 const limiter = rateLimit({

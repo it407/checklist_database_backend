@@ -107,34 +107,10 @@ export const getAllChecklists = async () => {
 };
 
 
+
+
 // export const updateChecklist = async (id, data) => {
-//   const keys = Object.keys(data);
-
-//   if (keys.length === 0) {
-//     throw new Error("No fields provided for update");
-//   }
-
-//   const setClause = keys
-//     .map((key, index) => `${key} = $${index + 1}`)
-//     .join(", ");
-
-//   const values = Object.values(data);
-
-//   const { rows } = await pool.query(
-//     `
-//     UPDATE checklist
-//     SET ${setClause}
-//     WHERE id = $${keys.length + 1}
-//     RETURNING *
-//     `,
-//     [...values, id]
-//   );
-
-//   return rows[0];
-// };
-
-
-export const updateChecklist = async (id, data) => {
+  export const updateChecklist = async (id, data = {}) => {
   // 🔹 Get existing task_start_date
   const { rows: existingRows } = await pool.query(
     `SELECT task_start_date FROM checklist WHERE id = $1`,

@@ -102,11 +102,42 @@ export const getAllChecklists = async (req, res, next) => {
 };
 
 // update checklist task
+// export const updateChecklist = async (req, res, next) => {
+//   try {
+//     const { id } = req.params;
+
+//     const updated = await checklistService.updateChecklist(id, req.body);
+
+//     if (!updated) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Task not found",
+//       });
+//     }
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Checklist updated",
+//       data: updated,
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
+
+
 export const updateChecklist = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const updated = await checklistService.updateChecklist(id, req.body);
+    const payload = {
+      ...req.body,
+      uploaded_image: req.file
+        ? req.file.path.replace(/\\/g, "/")
+        : req.body.uploaded_image || null,
+    };
+
+    const updated = await checklistService.updateChecklist(id, payload);
 
     if (!updated) {
       return res.status(404).json({
@@ -124,6 +155,9 @@ export const updateChecklist = async (req, res, next) => {
     next(err);
   }
 };
+
+
+
 
 // 🔹 DELETE single
 export const deleteChecklistById = async (req, res, next) => {
