@@ -65,6 +65,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/leave", leaveRoutes);
 app.use('/api/master', masterRoutes);
 
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 // static serve (important)
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
